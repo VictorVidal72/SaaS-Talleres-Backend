@@ -62,11 +62,13 @@ CREATE TABLE vehiculos (
 
 -- 5. TABLA INTERMEDIA: TALLERES_VEHICULOS (Relación N:M)
 CREATE TABLE talleres_vehiculos (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     taller_id BIGINT NOT NULL REFERENCES talleres(id) ON DELETE CASCADE,
     vehiculo_id BIGINT NOT NULL REFERENCES vehiculos(id) ON DELETE RESTRICT,
     primera_visita TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ultima_visita TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (taller_id, vehiculo_id)
+    creado_en TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_taller_vehiculo UNIQUE (taller_id, vehiculo_id)
 );
 
 -- ============================================================================
