@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: saas-talleres-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/taller_saas_db
-    username: saas_admin
-    password: saas_secret_password
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -24,3 +24,10 @@ spring:
     enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
+
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration-ms: ${JWT_EXPIRATION_MS}
