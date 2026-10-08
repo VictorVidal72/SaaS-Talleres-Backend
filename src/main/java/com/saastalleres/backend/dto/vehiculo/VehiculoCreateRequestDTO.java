@@ -12,10 +12,10 @@ import jakarta.validation.constraints.Size;
 public record VehiculoCreateRequestDTO(
 
     @NotBlank(message = "La matrícula es obligatoria")
-    @Size(min = 3, max = 20, message = "La matrícula debe tener entre 3 y 20 caracteres")
+    @Size(min = 6, max = 10, message = "La matrícula debe tener un formato válido")
     @Pattern(
-        regexp = "^[A-Z0-9-]+$", 
-        message = "La matrícula solo puede contener letras mayúsculas, números o guiones"
+        regexp = "^(\\d{4}[BCDFGHJKLMNPRSTVWXYZ]{3}|[A-Z]{1,2}\\d{4}[A-Z]{0,2})$",
+        message = "La matrícula debe cumplir el formato oficial español (ej. 1234BBB o CA1234AB)"
     )
     String matricula,
 
