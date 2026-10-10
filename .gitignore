@@ -37,3 +37,5 @@ build/
 .env.*
 !.env.example
 *.local
+# Repositorio local de la Wiki
+SaaS-Talleres-Backend.wiki/
