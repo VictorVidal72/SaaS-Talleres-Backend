@@ -29,15 +29,16 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
             Long tallerId, 
             OffsetDateTime inicio, 
             OffsetDateTime fin
-    );
+        );
 
-    // 4. Comprobar ocupación de un elevador/puesto físico en un rango de horas
-    List<Cita> findByTallerIdAndPuestoIdAndFechaInicioBetween(
-            Long tallerId, 
-            Long puestoId, 
-            OffsetDateTime inicio, 
-            OffsetDateTime fin
-    );
+    // 4. Comprobar disponibilidad real de un puesto en un rango temporal
+    boolean existsByTallerIdAndPuestoIdAndEstadoInAndFechaInicioLessThanAndFechaFinGreaterThan(
+                Long tallerId,
+                Long puestoId,
+                Collection<EstadoCita> estados,
+                OffsetDateTime fin,
+                OffsetDateTime inicio
+        );
 
     // 5. Barrera anti-spam (RN-04): validar si la matrícula ya tiene cita activa
     boolean existsByTallerIdAndVehiculoMatriculaAndEstadoIn(
