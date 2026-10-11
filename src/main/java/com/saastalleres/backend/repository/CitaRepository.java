@@ -46,4 +46,12 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
             String matricula, 
             Collection<EstadoCita> estados
     );
+
+    // 6. Obtener citas de un taller filtrando por rango y estados concretos(disponibilidad pública)
+    List<Cita> findByTallerIdAndFechaInicioBetweenAndEstadoIn(
+            Long tallerId,
+            OffsetDateTime inicio,
+            OffsetDateTime fin,
+            Collection<EstadoCita> estados
+    );
 }
