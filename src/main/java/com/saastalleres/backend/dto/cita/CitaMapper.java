@@ -5,6 +5,7 @@ import com.saastalleres.backend.domain.entity.Puesto;
 import com.saastalleres.backend.domain.entity.Taller;
 import com.saastalleres.backend.domain.entity.Vehiculo;
 import com.saastalleres.backend.domain.enums.EstadoCita;
+import com.saastalleres.backend.domain.enums.OrigenCita;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -16,10 +17,34 @@ import java.time.OffsetDateTime;
 public class CitaMapper {
 
     /**
-     * Transforma una solicitud de entrada en una entidad Cita lista para persistir.
-     * La fecha de fin se calcula automáticamente según la duración intrínseca del servicio (RF-09).
+     * Mapea una solicitud del portal web público (Conductor).
+     * Siempre nace en estado PENDIENTE_CONFIRMACION, sin puesto asignado y origen WEB.
      */
-    public Cita toEntity(CitaCreateRequestDTO dto, Taller taller, Vehiculo vehiculo, Puesto puesto) {
+    public Cita toEntity(CitaPublicaCreateRequestDTO dto, Taller taller, Vehiculo vehiculo) {
+        if (dto == null) {
+            return null;
+        }
+
+        OffsetDateTime fechaFinCalculada = dto.tipoServicio().calcularFin(dto.fechaInicio());
+
+        return Cita.builder()
+                .taller(taller)
+                .vehiculo(vehiculo)
+                .puesto(null) // Las citas web entran sin box asignado
+                .fechaInicio(dto.fechaInicio())
+                .fechaFin(fechaFinCalculada)
+                .tipoServicio(dto.tipoServicio())
+                .motivo(dto.motivo())
+                .estado(EstadoCita.PENDIENTE_CONFIRMACION)
+                .origen(OrigenCita.WEB)
+                .build();
+    }
+
+    /**
+     * Mapea una solicitud creada desde el panel de gestión del taller (Recepción / Teléfono).
+     * Permite asociar puesto físico directamente y nace en estado CONFIRMADA.
+     */
+    public Cita toEntity(CitaInternaCreateRequestDTO dto, Taller taller, Vehiculo vehiculo, Puesto puesto) {
         if (dto == null) {
             return null;
         }
@@ -34,8 +59,8 @@ public class CitaMapper {
                 .fechaFin(fechaFinCalculada)
                 .tipoServicio(dto.tipoServicio())
                 .motivo(dto.motivo())
-                .estado(EstadoCita.PENDIENTE_CONFIRMACION)
-                .origen(dto.origen())
+                .estado(EstadoCita.CONFIRMADA)
+                .origen(OrigenCita.MANUAL) // O MOSTRADOR según el enum definido
                 .build();
     }
 
