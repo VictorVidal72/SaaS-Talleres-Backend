@@ -13,6 +13,7 @@ public enum EstadoCita {
     PENDIENTE_CONFIRMACION(true, false),
     CONFIRMADA(false, true),
     PROPUESTA_TALLER(true, false),
+    FINALIZADA(false, false),
     RECHAZADA(false, false),
     CANCELADA(false, false);
 
@@ -23,6 +24,6 @@ public enum EstadoCita {
      * Determina si la cita está en un estado terminal e inmutable.
      */
     public boolean esFinal() {
-        return this == RECHAZADA || this == CANCELADA;
+        return this == RECHAZADA || this == CANCELADA || this == FINALIZADA;
     }
 }
