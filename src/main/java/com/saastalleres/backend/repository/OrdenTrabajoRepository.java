@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Repositorio de acceso a datos para las órdenes de trabajo,
@@ -30,4 +31,7 @@ public interface OrdenTrabajoRepository extends JpaRepository<OrdenTrabajo, Long
 
     // 5. Localizar la orden originada a partir de una cita previa
     Optional<OrdenTrabajo> findByCitaId(Long citaId);
+
+    // 6. Consulta directa indexada por token UUID para seguimiento público (RN-03, RN-08)
+    Optional<OrdenTrabajo> findByTokenUuid(UUID tokenUuid);
 }
