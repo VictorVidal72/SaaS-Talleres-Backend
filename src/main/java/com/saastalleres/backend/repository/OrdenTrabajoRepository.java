@@ -34,4 +34,7 @@ public interface OrdenTrabajoRepository extends JpaRepository<OrdenTrabajo, Long
 
     // 6. Consulta directa indexada por token UUID para seguimiento público (RN-03, RN-08)
     Optional<OrdenTrabajo> findByTokenUuid(UUID tokenUuid);
+
+    // 7. Verifica la existencia de una orden de trabajo aislada por taller (RN-01).
+    boolean existsByIdAndTallerId(Long id, Long tallerId);
 }
