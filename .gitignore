@@ -39,3 +39,6 @@ build/
 *.local
 # Repositorio local de la Wiki
 SaaS-Talleres-Backend.wiki/
+
+# Script local de arranque PowerShell
+dev.ps1
